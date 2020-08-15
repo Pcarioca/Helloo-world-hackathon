@@ -1,0 +1,247 @@
+body{
+    background-color: #FAD778;
+}
+body *{
+    font-family: 'Fira Mono', monospace;
+}
+.blocks{
+    text-align: center;
+    font-size:50px;
+    padding-top: 3%;
+}
+.end{
+    height:30px;
+}
+.bl{
+    width: 485px;
+    height:124px;
+    
+    text-align:center;
+    font-size:64px;
+    padding-top:15px;
+    color:white;
+}
+.bttm{
+    margin-bottom:30px;
+}
+.repeat{
+    background-color: #40C5FF;
+}
+.sensing{
+    background-color: #3A86FF;
+}
+.wait{
+    background-color: #C993E0;
+}
+.if{
+    background-color: #A26AF1;
+}
+.variables{
+    background-color: #FF006E;
+}
+.motion{
+    background-color: #FA1616;
+}
+.sounds{
+    background-color:#FFC20A; 
+}
+.i{
+    margin-left:172px;
+    margin-top:50px;
+}
+.while{
+    background-color:#FF8533;
+}
+
+.container-fluid{
+
+    background-color:#F9C74F;
+    margin-left:2%;
+    margin-right:2%;
+    margin-top:3%;
+    margin-bottom:3%;
+    width:96%;
+}
+.p{
+    color: #1e96fc;
+    padding-left:30%;
+    padding-bottom: 1.5em;
+}
+.mydiv{
+    margin: 50px;
+}
+.instr{
+    font-size:60px;
+}
+.instructions{
+    font-size: 70px;
+    
+}
+.instr-title{
+    margin-left:33%;
+    border-top: 10em;
+    
+}
+#cam2photo{
+    width:13em;
+    margin-left:38%;
+}
+#cam2button{
+    width: 10em;
+    height: 3em;
+    font-size:30px;
+    margin-left:10.5em;
+}
+.cam2{
+    width: 56em;
+    margin-top:0;
+    height:20em;
+    background-color: white;
+}
+.camm{
+    background-color: #C4C4C4;
+    
+    width:4.5em;
+    
+    margin-top:1em;
+    position:sticky;
+    padding:0.3em;
+    text-align: center;
+    padding-left:0.6em;
+    padding-right:0.6em;
+}
+#stop{
+    width:5em;
+    margin-left:17em;
+}
+#play{
+    width:5em;
+    margin-left:10em;
+}
+.span{
+    background-color:white;
+    width:  56em;
+    margin-top: 0em;
+    height: 20em;
+
+}
+.console{
+    
+    background-color: #C4C4C4;
+    
+    width:6em;
+    
+
+    position:sticky;
+    padding:0.3em;
+    text-align: center;
+    padding-left:0.6em;
+    padding-right:0.6em;
+    margin-bottom:0px;
+    margin-top: .5em;
+}
+#input{
+    width:35em;
+    height:45em;
+    margin:2em;
+    margin-top:0px;
+    text-align: center;
+    
+}
+
+.label{
+    background-color: #C4C4C4;
+    
+    width:4em;
+    
+
+    position:sticky;
+    padding:0.3em;
+    text-align: center;
+    padding-left:0.6em;
+    padding-right:0.6em;
+    
+}
+.code{
+margin-bottom: 0px;
+margin-top:.5em;
+margin-left:1.4em;
+}
+.table{
+    width: 100%;
+    border: 10px solid black;
+    border-collapse: collapse;
+}
+td{
+    border: 10px solid black;
+    
+}
+
+.start{
+    text-align: center;
+    
+    font-size:55px;
+    padding-bottom: 2em;
+    padding-top:3%;
+}
+
+.next{
+    text-align: center;
+    font-size: 40px;
+}
+.btn{
+    background-color:#1E96FC;
+    width: 10em;
+    color:white;
+    border-radius: 45%;
+    height:7em;
+    font-size: 30px;
+    margin-left:30%;
+    margin-bottom: 4%;
+    border: 5px solid #1E96FC;
+    transition-duration: 0.05s;
+}
+.btn:hover{
+    background-color: transparent;
+    color:#1E96FC;
+    font-weight: bold;
+}
+.space{
+    height: 4.8em;
+    
+}
+.photo{
+    font-size: 55px;
+    text-align: center;
+    padding-top: 3%;
+    
+}
+.camera{
+    padding-left: 42em;
+    height: 400px;
+
+}
+.cam{
+    margin-left:40%;
+}
+.video{
+    height:700px;
+    padding-left: 20em;
+    padding-top:100px;
+
+}
+#btn{
+    margin-left:42%;
+}
+/*
+lighter yellow : FAD778
+Yellow: F9C74F
+Lighter Green: CEE000
+Green : 3EC300
+Blue: 1E96FC
+Red: E30029
+Grey: C4C4C4
+Title Font: Fira Mono
+Buttons Font: Fira Code
+Font for “First you need to take a photo of your blocks”: Fira Sans
+*/
