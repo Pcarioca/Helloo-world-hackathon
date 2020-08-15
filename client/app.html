@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="authors"
+        content="The Markup heroes, consistiong of: Paul-Andrei Munteanu (aka Andrew), Eunice Sarahi Tovar Cisneros (aka Eunice) and Nabeel Ahmed (aka Ahmed)">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <style>
+        /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.previewImage {
+    overflow: hidden;
+}
+    </style>
+
+</head>
+
+<body>
+
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span onclick="cameraModal('none')" class="close">&times;</span>
+          <video  autoplay="true" id="videoCamera"></video>
+          <button onclick="updatePicture()" class="btn button" >Take a Pic :)</button>
+        </div>
+      
+      </div>
+
+      <div id="actionModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span onclick="actionModal('none')" class="close">&times;</span>
+            <h1>action</h1>
+            <ul id="scannedObjects">
+            </ul>
+            <canvas id="actionCanvas"></canvas>
+        </div>
+      
+      </div>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <table class="table">
+
+                <div class="row">
+                    <div class="col">
+                        <h4 class="code label">
+                            CODE
+                        </h4>
+                        <textarea type="text" id="input"> </textarea>
+                    </div>
+                    <div class="col">
+                        <h4 class="console">
+                            CONSOLE
+                        </h4>
+                        <div class="span" id="output">
+                            <textarea id="serverConsole" readonly
+                                style="text-align:left; border: 2px solid white;width: 55em; height:14em; overflow:hidden;">
+                        </textarea> <br>
+
+                        <img src="assets/stop.png" alt="stop" id="stop">
+                        <img style="cursor: pointer;" onclick="actionModal('block')" src="assets/play.png" alt="play" id="play">
+                        </div>
+                        <h4 class="camm">
+                            PHOTO
+                        </h4>
+                        <div class="cam2" id="cam2">
+                            <img src="assets/camera.png" id="cam2photo" alt="camera">
+                            <button class="btn button"  onclick="cameraModal('block')" id="cam2button">Upload photo</button>
+                            <canvas id="canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+
+            </table>
+        </div>
+
+
+
+    </div>
+    <script>
+
+        var GLOBALCOORDS = []
+        var GLOBALIMAGE;
+        
+        var modal = document.getElementById("myModal");
+        function cameraModal(option) {
+            modal.style.display = option;
+            var video = document.querySelector("#videoCamera");
+
+            if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                video.srcObject = stream;
+                })
+                .catch(function (err0r) {
+                console.log("Something went wrong!");
+                });
+            }
+        }
+
+        function updatePicture() {
+            modal.style.display = 'none';
+
+            document.getElementById("cam2photo").style.display = 'none'
+            document.getElementById("cam2button").style.display = 'none'
+
+            var canvas = document.getElementById('canvas');     
+            var video = document.getElementById('videoCamera');
+
+            canvas.width = 640;
+            canvas.height = 480;
+            canvas.getContext('2d').drawImage(video, 0, 0, 640,480);  
+
+            GLOBALIMAGE = canvas.toDataURL()
+
+            fetch("http://localhost:8080", {
+                method: "POST",
+                body: JSON.stringify({
+                    data: canvas.toDataURL()
+                }),
+            })
+            .then(response => response.text())
+            .then(data => {
+                renderObjects(data)
+            })
+        }
+
+        function renderObjects(data) {
+            var ctx = document.getElementById('canvas').getContext("2d");
+            data = data.split(" ")
+            document.getElementById("serverConsole").innerHTML += "Server: "+(data.length - 1) + " Detected"
+            for(let x = 0; x < data.length; x++) {
+                if(data[x] == "") {
+                    continue;
+                } 
+                let coord = cleanData(data[x])
+                GLOBALCOORDS.push(cleanData(data[x]))
+                ctx.beginPath();
+                ctx.lineWidth = 4;
+                ctx.rect(coord[0][0], coord[0][1], coord[1][0] - coord[0][0], coord[1][1] - coord[0][1]);
+                ctx.font = "25px Arial";
+                ctx.fillText(x,coord[0][0]+25,coord[0][1]+25);
+                ctx.stroke();
+            }
+        }
+
+        function cleanData(data) {
+            data = data.replace(")-(", `],[`)
+            data = data.replace("(", "[[")
+            data = data.replace(")", "]]")
+            return JSON.parse(data)
+
+        }
+
+        function actionModal(option) {
+            let canvas = document.getElementById("canvas")
+            document.getElementById('actionModal').style.display = option
+            let list = document.getElementById("scannedObjects")
+            list.innerHTML = ""
+
+            
+            for(let i = 0; i < GLOBALCOORDS.length; i++) {
+                let cc = document.createElement("img")
+                let crop = document.createElement("div")
+
+                list.innerHTML += `<li>${GLOBALCOORDS[i]} = ${i}</li>`
+                
+                // GLOBALCOORDS[i][]
+                crop.setAttribute("class", 'previewImage')
+                crop.style.width = GLOBALCOORDS[i][1][0]
+                crop.style.height = GLOBALCOORDS[i][1][1]
+                cc.setAttribute("src", canvas.toDataURL())
+
+                crop.appendChild(cc)
+                list.appendChild(crop)
+            }
+        }
+
+
+        
+        var getCanvasPixelColor=function(){"use strict";return function(a,r,t){a.getImageData||(a=a.getContext("2d"));var g=a.getImageData(r,t,1,1).data;return g.r=g[0],g.g=g[1],g.b=g[2],g.a=g[3],g.rgb="rgb("+g.r+","+g.g+","+g.b+")",g.rgba="rgba("+g.r+","+g.g+","+g.b+","+g.a+")",g}}();
+    </script>
+</body>
+
+</html>
