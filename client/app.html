@@ -95,8 +95,9 @@
             <ol id="instructions">
 
             </ol>
-            <div style="width: 100%;" id="simCanvas">
-                <div style="margin-left: 100px; width: 50px; height: 50px; background-color: red;" id="player"></div>
+            <div style="width: 100%; height: 500px;" id="simCanvas">
+                <div style="margin-left: 500px; margin-top: 200px; width: 50px; height: 50px; position: absolute;" id="star"><img style="width: 100%;"src="assets/star.png"></div>
+                <div style="margin-left: 100px; width: 50px; height: 50px; background-color: black; position: absolute;" id="player"></div>
             </div>
         </div>
       
@@ -321,6 +322,7 @@
             var sim = document.getElementById("simCanvas")
 
             var rectPosX = 100;
+            var rectPosY = 0;
             var MAXsteps = instructions.length
             var steps = 0
             var gameLoop = setInterval(()=>{
@@ -328,19 +330,44 @@
                     clearInterval(gameLoop)
                 }
 
+                if(rectPosX == 500 && rectPosY == 200) {
+                    alert("You Win!!")
+                    window.location.reload()
+                }
+
                 document.getElementById("player").style.marginLeft = `${rectPosX}px`;
+                document.getElementById("player").style.marginTop = `${rectPosY}px`;
+                document.getElementById("player").style.backgroundColor = (instructions[steps].toLowerCase())
 
                 if(instructions[steps] == "Red") {
-                    if(GAMECONSTANT.red == "left") {
-                        rectPosX -= 100;
-                    } else {
-                        rectPosX += 100;
+                    switch(GAMECONSTANT.red) {
+                        case "left":
+                            rectPosX -= 100;    
+                            break;
+                        case "right":
+                            rectPosX += 100;
+                            break;
+                        case "up":
+                            rectPosY -= 100;
+                            break;
+                        case "down":
+                            rectPosY += 100;
+                            break;
                     }
                 } else {
-                   if(GAMECONSTANT.blue == "left") {
-                        rectPosX -= 100;
-                    } else {
-                        rectPosX += 100;
+                   switch(GAMECONSTANT.blue) {
+                        case "left":
+                            rectPosX -= 100;    
+                            break;
+                        case "right":
+                            rectPosX += 100;
+                            break;
+                        case "up":
+                            rectPosY -= 100;
+                            break;
+                        case "down":
+                            rectPosY += 100;
+                            break;
                     }
                 }
 
