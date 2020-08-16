@@ -4,4 +4,4 @@
 1. Make sure to first install [OpenCV](https://opencv.org/)
 2. Install [GoLang](https://golang.org/)
 3. Intall [GoCV](https://gocv.io/)
-4. Run the server using `go run server.go`
+4. Run the server using `go run main.go`
